@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // Attach token to every request automatically
@@ -20,7 +20,7 @@ api.interceptors.response.use(
       window.location.href = "/login";
     }
     return Promise.reject(err);
-  }
+  },
 );
 
 // ── Auth ──────────────────────────────────────────────
@@ -40,6 +40,7 @@ export const deleteEmployee = (id) => api.delete(`/employees/${id}`);
 
 // ── Attendance ────────────────────────────────────────
 export const markAttendance = (data) => api.post("/attendance/", data);
-export const getAttendance = (empId) => api.get(`/attendance/employee/${empId}`);
+export const getAttendance = (empId) =>
+  api.get(`/attendance/employee/${empId}`);
 
 export default api;
